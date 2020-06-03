@@ -1,0 +1,36 @@
+class Solution {
+    public int[] nextLargerNodes(ListNode head) {
+        
+        Map<Integer,Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+        
+        ListNode temp = head;
+        int i = 0;
+        
+        while(temp!=null)
+        {
+            map.put(i,temp.val);
+            i++;
+            temp=temp.next;
+        }
+        
+        int[] big = new int[i];
+        temp = head;
+        i=0;
+        stack.push(i);
+        
+        while(temp.next!=null)
+        {
+            while(!stack.isEmpty() && temp.next.val > map.get(stack.peek()))
+                big[stack.pop()]=temp.next.val;
+            
+            i++;
+            stack.push(i);
+            temp=temp.next;
+                
+        }
+        
+        return big; 
+        
+    }
+}
