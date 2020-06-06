@@ -1,0 +1,23 @@
+class Solution {
+    
+    TreeNode order = new TreeNode();
+    TreeNode temp = order;
+    
+    public TreeNode increasingBST(TreeNode root) {
+        
+        inOrderTraverse(root);
+        return temp.right;
+    }
+    
+    public void inOrderTraverse(TreeNode root)
+    {
+        if(root == null)
+            return;
+        
+        inOrderTraverse(root.left);
+        order.right = new TreeNode(root.val);
+        order = order.right;
+        inOrderTraverse(root.right);
+        
+    }
+}
