@@ -1,0 +1,39 @@
+class Solution {
+    public boolean isValid(String s) {
+        
+        Stack<Character> stack = new Stack<>();
+        
+        for(char c : s.toCharArray())
+        {
+            switch (c) 
+            {
+                case ')':
+                    if(!stack.isEmpty() && stack.peek() == '(')
+                        stack.pop();
+                    else
+                        stack.push(')');
+                    break;
+                case '}':
+                    if(!stack.isEmpty() && stack.peek() == '{')
+                        stack.pop();
+                    else
+                        stack.push('}');
+                    break;
+                 case ']':
+                    if(!stack.isEmpty() && stack.peek() == '[')
+                        stack.pop();
+                    else
+                        stack.push(']');
+                    break;
+                default:
+                    stack.push(c);
+            }
+        }
+        
+        if(stack.isEmpty())
+            return true;
+        
+        return false;
+            
+    }
+}
