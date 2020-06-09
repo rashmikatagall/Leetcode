@@ -1,0 +1,35 @@
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode temp = head;
+        ListNode prev = null;
+        boolean dup = false;
+        
+        while(temp!=null && temp.next!=null)
+        {
+            while(temp.next!=null && temp.val == temp.next.val)
+            {
+                temp = temp.next;
+                dup = true;
+            }
+            if(dup)
+            { 
+                if(prev!=null)
+                   prev.next = temp.next;
+                if(head.val == temp.val)
+                    head = temp.next;
+            }
+            else 
+                prev = temp;
+            temp =temp.next;
+            dup = false;
+        }
+        
+        return head;
+        
+        
+        }
+}
