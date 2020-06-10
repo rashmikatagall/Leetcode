@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        
+        Queue<TreeNode> q1 = new LinkedList<>();
+        Queue<TreeNode> q2 = new LinkedList<>();
+        List<List<Integer>> list = new ArrayList<>();
+        if (root == null)
+            return list;
+        q1.add(root);
+        
+        while(!q1.isEmpty())
+        {
+           List<Integer> l = new ArrayList<>();
+           while(!q1.isEmpty())
+           {
+               TreeNode node = q1.remove();
+               l.add(node.val);
+               if(node.left != null)
+                   q2.add(node.left);
+               if(node.right != null)
+                   q2.add(node.right);
+           }
+            q1 = q2;
+            q2 = new LinkedList<>();
+            list.add(l);
+        }
+        
+        Collections.reverse(list);
+        return list;
+    }
+    
+    
+}
