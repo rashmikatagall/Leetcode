@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        
+        Queue<TreeNode> q1 = new LinkedList<>();
+       
+        q1.add(root);
+        q1.add(root);
+        
+        while(!q1.isEmpty())
+        {
+            TreeNode t1 = q1.remove();
+            TreeNode t2 = q1.remove();
+            if(t1 == null && t2 == null)
+                continue;
+            if(t1 == null || t2 == null)
+                return false;
+            if(t1.val != t2.val)
+                return false;
+            
+            q1.add(t1.left);
+            q1.add(t2.right);
+            q1.add(t1.right);
+            q1.add(t2.left);
+        }
+        
+        return true;
+    }
+}
