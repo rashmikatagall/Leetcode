@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isUnivalTree(TreeNode root) {
+        
+        if(root == null)
+            return false;
+        
+        return isUniTree(root, root.val);
+    }
+    
+    
+    public boolean isUniTree(TreeNode root, int val)
+    {
+        if(root == null)
+            return true;
+        if(root.val != val)
+            return false;
+        if(root.left == null && root.right == null)
+            return true;
+       if(!isUniTree(root.left,val))
+           return false;
+        if(!isUniTree(root.right,val))
+            return false;
+        
+        return true;
+        
+    }
+}
