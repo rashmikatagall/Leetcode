@@ -1,0 +1,47 @@
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+      
+        int r = grid.length;
+        int c = grid[0].length;
+        boolean[][] seen = new boolean[r][c];
+        Queue<Integer[]> q = new LinkedList<>();
+        int area = 0;
+       
+        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+        for(int r1=0;r1<r;r1++)
+        {
+         for(int c1=0;c1<c;c1++)
+         {
+             int a = 0;
+             if(grid[r1][c1] == 1 && !seen[r1][c1])
+             {
+                 q.add(new Integer[]{r1,c1});
+                 seen[r1][c1] = true;
+                 while(!q.isEmpty())
+                 {
+                   a++;
+                   Integer[] first = q.poll();
+                   for(int[] dir : dirs)
+                    {
+                      int i = first[0]+dir[0];
+                      int j = first[1]+dir[1];
+                      Integer[] rem = new Integer[]{i,j};
+                      if(i>=0 && i<r && j>=0 && j<c && grid[i][j] == 1 && !seen[i][j])
+                       {
+                           q.add(rem);
+                           seen[i][j] = true;
+                       }
+                   } 
+                }
+                 area = Math.max(area, a);   
+             }
+                
+            }
+            
+        }
+            
+        
+        
+     return area;
+    }
+}
