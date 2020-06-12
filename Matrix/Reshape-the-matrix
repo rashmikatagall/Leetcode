@@ -1,0 +1,31 @@
+class Solution {
+    public int[][] matrixReshape(int[][] nums, int r, int c) {
+        int row = nums.length;
+        int col = nums[0].length;
+        
+        if(row*col != r*c)
+            return nums;
+        
+        int[][] arr = new int[r][c];
+        int i1 = 0;
+        int j1 = 0;
+        for(int i = 0; i < r;i++)
+        {
+            if(i1 >= row)
+                i1 = 0;
+            for(int j = 0;j < c ;j++)
+            {
+                if(j1 >= col)
+                {
+                    j1=0;
+                    i1++;
+                }
+                arr[i][j] = nums[i1][j1];
+                j1++;
+            }
+        }
+        
+        return arr;
+        
+    }
+}
