@@ -1,0 +1,60 @@
+class Solution {
+    public int orangesRotting(int[][] grid) {
+     
+        Queue<Integer[]> q = new LinkedList<>();
+        Queue<Integer[]> q1 = new LinkedList<>();
+        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+        int rotten = 0;
+        int total = grid.length*grid[0].length;
+        int count = 0;
+        
+        for(int i=0;i<grid.length;i++)
+        {
+            for(int j=0;j<grid[0].length;j++)
+            {
+                if(grid[i][j] == 2)
+                {
+                    q.add(new Integer[]{i,j});
+                    rotten++;
+                }
+                if(grid[i][j] == 0)
+                   rotten++;
+            }
+        }
+        
+      if(rotten == 0)
+          return -1;
+        
+       while(!q.isEmpty())
+       {
+           if(rotten == total)
+              return count;
+        while(!q.isEmpty())
+        {
+            Integer[] curr = q.poll();
+            for(int[] dir: dirs)
+            {
+                int i = curr[0] + dir[0];
+                int j = curr[1] + dir[1];
+                if(i>=0 && i<grid.length && j>=0 && j<grid[0].length && grid[i][j] == 1)
+                {
+                    grid[i][j] = 2;
+                    rotten++;
+                    q1.add(new Integer[]{i,j});
+                    
+                }
+                
+            }
+        }
+        count++;
+        q=q1;
+        q1=new LinkedList<>();
+    }
+        
+        if(rotten < total)
+            return -1;
+        
+        return count;
+        
+    }
+}
