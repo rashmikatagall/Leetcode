@@ -1,0 +1,46 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s==null ||s.length() == 0)
+            return s;
+            
+        Map<Character,List<Integer>> map = new HashMap<>();
+        int len = s.length();
+        char[] c = s.toCharArray();
+        String palString = String.valueOf(c[0]);
+        int pal = 1;
+        for(int i=0; i<=len-pal;i++)
+        {
+            List<Integer> li = map.getOrDefault(c[i],new ArrayList<Integer>());
+            li.add(i);
+            map.put(c[i],li);
+        }
+           
+        
+        for(int i=0;i<=len-pal;i++)
+        {
+            List<Integer> l = map.get(c[i]);
+            for(int in : l)
+            {
+                if(in <= i)
+                    continue;
+                int j = i+1;
+                int k = in-1;
+                while(j<=k)
+                {
+                    if(c[j] != c[k])
+                        break;
+                    j++;
+                    k--;
+                }
+                if(j>k && Math.max(pal,in-i+1)>pal)
+                {
+                    pal = Math.max(pal,in-i+1);
+                    palString = s.substring(i,in+1);
+                }   
+            }
+        }
+        
+        return palString;
+        
+    }
+}
