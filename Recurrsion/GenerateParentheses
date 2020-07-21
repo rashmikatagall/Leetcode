@@ -1,0 +1,21 @@
+class Solution {
+    List<String> list = new ArrayList<>();
+    public List<String> generateParenthesis(int n) {
+        
+        genParen("",0,0,n);
+        return list;
+              
+    }
+    
+    public void genParen(String str, int close, int open, int n)
+    {
+        if(close >= n && open >= n )
+           list.add(str);
+           
+        if(open < n)
+            genParen(str+"(",close, open+1,n);
+        if(close < open)
+            genParen(str+")",close+1,open,n);
+        return;
+    }
+}
