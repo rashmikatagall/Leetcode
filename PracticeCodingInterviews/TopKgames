@@ -1,0 +1,42 @@
+import java.util.*;
+import java.util.stream.*;
+
+
+public class Solution {
+    public List<String> getTopGames(int num, int topKGames, String[] games, int numReviews, String[] reviews) {
+        
+        Map<String,Integer> map = new HashMap<>();
+        
+        for(String game: games){
+            
+            map.put(game,0);
+        }
+        
+        
+        for(String review : reviews){
+            
+            
+            String[] words = review.replaceAll("[^a-zA-Z ]","").split(" ");
+            Set<String> set = new HashSet<>();
+            for(String word : words){
+                word = word.toLowerCase();
+                if(map.containsKey(word) && !set.contains(word)){
+                    map.put(word,map.get(word)+1);
+                    set.add(word);
+                }
+            }
+        }
+        
+        List<String> list =  map.entrySet()
+                  .stream()
+                  .sorted((e1,e2) -> e2.getValue()-e1.getValue())
+                  .limit(topKGames)
+                  .map(e1 -> e1.getKey())
+                  .collect(Collectors.toList());
+                  
+        return list;
+        
+        
+        
+	}
+}
