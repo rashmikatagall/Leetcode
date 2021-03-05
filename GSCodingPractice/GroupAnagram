@@ -1,0 +1,51 @@
+
+
+import java.io.*;
+import java.util.*;
+
+public class GroupAnagram {
+
+/*
+ * This program prints set of anagrams together in given string 
+ * 
+ * eg. 
+ * setOfAnagrams("cat dog tac sat tas god dog") should print "cat tac dog god dog sat tas"
+ *
+ */
+  
+  static String input = "cat dog tac sat tas god dog";
+  
+  static void setOfAnagrams(String inputString){ 
+    
+	  Map<String, List<String>> agmMap = new LinkedHashMap<>();
+	
+	  
+	  String[] words = inputString.split(" ");
+	  
+	  for(String word : words)
+	  {
+		char[] wordc = word.toCharArray();
+		Arrays.sort(wordc);
+		String sortedword = String.valueOf(wordc);
+		List<String> l = new ArrayList<>();
+		if(agmMap.containsKey(sortedword))
+		{
+			l = agmMap.get(sortedword);
+		}
+		l.add(word);
+		agmMap.put(sortedword, l);
+		
+	  }
+	  
+	  agmMap.values().stream().flatMap(l -> l.stream()).forEach(System.out::println);
+	  
+  
+  }
+  
+  public static void main(String[] args) {
+    
+    String input = "cat dog tac sat tas god dog";
+    setOfAnagrams(input);
+    
+  }
+}
