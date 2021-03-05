@@ -1,0 +1,68 @@
+
+public class SecondSmallestinArray {
+
+	/**
+	 * int secondSmallest(int[] x)
+	 */
+	public static int secondSmallest(int[] x) {
+		
+		if(x == null || x.length == 0)
+			return -1;
+		
+		if(x.length == 1)
+			return x[0];
+		if(x.length == 2)
+			return (x[1] >x[0])?x[1]:x[0];
+			
+	
+	    int small1;
+	    int small2;
+		
+		if(x[0] < x[1])
+		{
+			small1 = x[0];
+			small2 = x[1];
+		}
+		else
+		{
+			small1 = x[0];
+			small2 = x[1];
+		}
+		
+		for(int i=2;i<x.length;i++)
+		{
+			if(x[i] < small1)
+			{
+				small2 = small1;
+				small1 = x[i];
+			}
+			else if (x[i] < small2)
+			{
+				small2 = x[i];
+			}
+		}
+			
+		return small2;
+		
+	}
+
+	public static void main(String args[]) {
+
+		int[] a = { 0 };
+		int[] b = { 0, 1 };
+		int[] c = {7,4,9,3,8,1};
+		int[] d = {9, 4, 6,1, 5,2,3};
+
+		boolean result = true;
+		result &= secondSmallest(a) == 0;
+		result &= secondSmallest(b) == 1;
+		result &= secondSmallest(c) == 3;
+		result &= secondSmallest(d) == 2;
+		if (result) {
+			System.out.println("Pass");
+		} else {
+			System.out.println("Fail");
+		}
+
+	}
+}
