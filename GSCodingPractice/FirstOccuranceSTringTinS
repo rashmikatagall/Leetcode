@@ -1,0 +1,10 @@
+Given 2 strings S and T.
+Task
+Find the first occurrence of T in S and remove it
+Repeat
+
+Example:
+S: aaabcbc
+T: abc
+Output: a (aaabcbc –> aabc –> a)
+PS: Inbuilt function was not allowed.
