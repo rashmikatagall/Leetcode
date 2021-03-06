@@ -1,0 +1,42 @@
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class BestAverageScore {
+
+		public static Double bestAvgGrade(String[][] scores) {
+		
+			Map<String, Double> score = new HashMap<>();
+			Map<String, Integer> stu = new HashMap<>();
+			Double avg;
+			
+			for(String[] s : scores)
+			{
+				score.put(s[0], score.getOrDefault(s[0],0.0)+Double.parseDouble(s[1]));
+				stu.put(s[0], stu.getOrDefault(s[0],0)+1);
+			}
+			
+			avg = score.entrySet().stream().map(e -> e.getValue()/stu.get(e.getKey())).sorted(Collections.reverseOrder()).findFirst().get();
+			return avg;
+			
+		}
+
+		public static boolean pass() {
+			String[][] s1 = { { "Rohan", "84" }, { "Sachin", "102" }, { "Ishan", "55" }, { "Sachin", "18" } };
+
+			return bestAvgGrade(s1) == 84;
+		}
+
+		public static void main(String[] args) {
+			if (pass()) {
+				System.out.println("Pass");
+			} else {
+				System.out.println("Some Fail");
+			}
+		}
+	
+}
