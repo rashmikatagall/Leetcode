@@ -1,0 +1,145 @@
+
+
+	import java.util.ArrayList;
+	import java.util.Arrays;
+	import java.util.List;
+
+
+public class BinarySearchTree {
+
+	
+	/*
+	 * Instructions to candidate.
+	 * Implement the "put" and "contains" methods.
+	 * Fix the "inOrderTraversal" method.
+	*/
+
+	  static class BST  {
+
+	    private Node root;
+
+	    public BST() {
+	      this.root = new Node();
+	    }
+	    
+	    private static class Node {
+		      Integer val;
+		      Node left;
+		      Node right;
+		    }
+         
+	    public void putInTree(int val, Node node)
+	    {
+	    	if(node.val == null)
+	    	{
+	    		node.val = val;
+	    		return;
+	    	}
+	    	else if(val < node.val)
+	    	{
+	    		if(node.left == null)
+	    		{
+	    			Node left = new Node();
+	    			node.left = left;
+	    		}
+	    		putInTree(val, node.left);
+	    	}
+	    	else
+	    	{
+	    		if(node.right == null)
+	    		{
+	    			Node right = new Node();
+	    			node.right = right;
+	    		}
+	    		putInTree(val, node.right);
+	    	}
+	    }
+	    
+	    public void put(int val)
+	    {
+	         putInTree(val,root);
+	    }
+		
+	    
+	    public boolean contains(int val)
+	    {
+	    	return containsInTree(val, root);
+	    }
+	    
+	    
+	    public boolean containsInTree(int val, Node node)
+	    {
+	    	
+	    	if(node == null)
+	    		return false;
+	    	
+	    	if(node.val == val)
+	    		return true;
+	    
+	    	return(containsInTree(val,node.left)||containsInTree(val,node.right));
+	    	
+
+	    }
+	    
+	    
+	    public List<Integer> inOrderTraversal() {
+	    	
+	    	List<Integer> vals = new ArrayList<>();
+	    	inOrderTraverse(root, vals);
+	    	return vals;
+	    
+	    }
+	    
+	    
+	    public void inOrderTraverse(Node node, List<Integer> vals)
+	    {
+	    	if(node == null)
+	    	{
+	    		return;
+	    	}
+	    		
+	    	inOrderTraverse(node.left, vals);
+	    	vals.add(node.val);
+	    	inOrderTraverse(node.right,vals);
+	    	
+	    	
+	    }
+
+	   /* private void inOrderTraversal(Node node, List<Integer> acc) {
+	      if (node == null) {
+	        return;
+	      }
+	      inOrderTraversal(node.left, acc);
+	      acc.add(node.val);
+		inOrderTraversal(node.right, acc);
+	      
+	    } */
+
+	    
+	  }
+
+
+	   public static void main(String[] args) {
+	    
+		  final BST searchTree = new BST();
+
+		    searchTree.put(3);
+		    searchTree.put(1);
+		    searchTree.put(2);
+		    searchTree.put(5);
+		    if(Arrays.asList(1,2,3,5).equals(searchTree.inOrderTraversal())
+		    		&& !searchTree.contains(0) 
+		    		&& searchTree.contains(1)
+		    		&& searchTree.contains(2)
+		    		&& searchTree.contains(3)
+		    		&& !searchTree.contains(4)
+		    		&& searchTree.contains(5)
+		    		&& !searchTree.contains(6)){
+		    	System.out.println("Pass");
+		    }else {
+		    	System.out.println("Fail");
+		    }
+		    		
+	  }
+
+	}
