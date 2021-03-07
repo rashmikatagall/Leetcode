@@ -1,0 +1,64 @@
+package com.gs.medium;
+
+public class ImplementPowerFunction {
+
+
+	  /* Given base and integer exponent, compute value of base raised to the power of exponent.
+	   * Can you implement a solution faster than O(exp)?
+	   */
+	  public static double power(double base, int exp) {
+		
+		  if (exp == 0)
+			  return 1.0;
+		  if(exp == 1)
+			  return base;
+		
+		  /*Double ans =1.0;
+		 
+		  for(int i=1;i<=exp;i++)
+		  {
+			  ans *= base;
+		  }
+		  
+		  return ans;*/
+		  
+		 // return base*power(base,exp-1);
+		 
+		  /*
+		  double powerofhalf = power(base, exp/2);
+		  if(n%2 == 0)
+			  return powerofhalf*powerofhalf;
+		  else
+			  return base*powerofhalf*powerofhalf;
+		 */
+		  
+		  double ans = 1.0;
+		  double b = base;
+		  while(exp != 0)
+		  {
+			  if((exp&1) == 1)
+				  ans *= b;
+			  b= b*b;
+			  exp = exp >> 1;
+				  
+		  }
+		  
+		  return ans;
+		  
+	  }
+
+	  /* returns true if all tests pass, false otherwise */
+	  public static boolean doTestsPass() {
+	    boolean doTestsPass = true;
+		double result = power(2,5);
+	    //return  doTestsPass;
+		return (Math.pow(2, 5) == result);
+	  }
+
+	  public static void main( String[] args ) {
+	    if (doTestsPass())
+	      System.out.println("All Tests Pass");
+	    else
+	      System.out.println("There are test failures");
+	  }
+	 }
