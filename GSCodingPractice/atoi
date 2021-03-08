@@ -1,0 +1,47 @@
+package com.gs.medium;
+
+public class atoi {
+
+	  
+	   // Takes a string str and returns the int value represented by
+	    // the string. 
+		//For example, atoi("42") returns 42.
+	   
+	  public static int atoi(String str)
+	  {
+	 
+		  int value=0;
+		  int base = 1;
+		  for(int i=str.length()-1; i >= 0;i--)
+		  {
+			  value = value + (str.charAt(i)-'0')*base;
+			  base = base * 10;
+		  }
+		  System.out.println("Value is :" + value);
+		  return value;
+		  
+	  };
+
+	  public static boolean pass()
+	  {
+	  boolean result = true;
+	  result = result && atoi("3") == 3;
+	  result = result && atoi("1") != 2;
+	  result = result && atoi("2787") == 2787;
+	  result = result && atoi("67678") == 67678;
+
+	  return result;
+	  };
+
+	  public static void main(String[] args)
+	  {
+	  if(pass())
+	  {
+	    System.out.println("Pass");
+	  }
+	  else
+	  {
+	    System.out.println("Some fail");
+	  }
+	  }
+	}
