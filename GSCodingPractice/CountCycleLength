@@ -17,30 +17,35 @@ public class CountLengthOfCycle {
 	  public static int countLengthOfCycle( int[] arr, int startIndex ) {
 		
 		  Set<Integer> seen = new HashSet<>();
-		  int len = 0;
-		  
-		  int i=0;
 		  int next = arr[startIndex];
-		  while(i<=arr.length)
+		  seen.add(next);
+		  for(int i=0;i<arr.length;i++)
 		  {
-			  System.out.println("Working on :"+ next);
-			  if(!seen.contains(next))
-			  { 
-			     seen.add(next);
-			     len++;
-			     next = arr[next];
+			  next=arr[next];
+			  if(seen.contains(next)) {
+				  return findLoopLength(arr, next);
 			  }
-			  else
-			  {
-				 System.out.println("Returning len :"+ len);
-				return len;  
-			  }
-			  System.out.println("The len is :"+ len);
-			  i++;
+			  seen.add(next);
 			 
 		  }
 		  
+		  System.out.println("Returning :" + -1);
 		  return -1;
+		  
+	  }
+	  
+	  public static int findLoopLength(int[] arr, int index) {
+		  int len = 1;
+		  
+		  int start = index;
+		  while(start != arr[index]) {
+			 len++;
+			 index = arr[index];
+		  }
+		  
+		  System.out.println("The length of loop :"+ len);
+		  return len;
+			 
 		  
 	  }
 
@@ -49,10 +54,11 @@ public class CountLengthOfCycle {
 
 	 boolean testsPassed = true;
 	  
-	 // testsPassed &= countLengthOfCycle(new int[]{1, 0}, 0) == 2;
-	 // testsPassed &= countLengthOfCycle(new int[]{1, 2, 0}, 0) == 3;
-	 // testsPassed &= countLengthOfCycle(new int[]{1, 4,2,0,3}, 0) == 4;
-	  testsPassed &= countLengthOfCycle(new int[]{1,2,3,0,4}, 0) == 4;
+	  testsPassed &= countLengthOfCycle(new int[]{1, 0}, 0) == 2;
+	  testsPassed &= countLengthOfCycle(new int[]{1, 2, 0}, 0) == 3;
+	  testsPassed &= countLengthOfCycle(new int[]{1, 4,2,0,3}, 0) == 4;
+	  testsPassed &= countLengthOfCycle(new int[]{1,2,3,4,3}, 0) == 2;
+	  testsPassed &= countLengthOfCycle(new int[]{1,3,4,2,3}, 0) == 3;
 	  
 	  if(testsPassed) {
 	    System.out.println( "Test passed." );
