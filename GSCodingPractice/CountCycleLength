@@ -1,0 +1,67 @@
+package com.gs.medium;
+
+import java.util.*;
+
+public class CountLengthOfCycle {
+
+	  /**
+	   *
+	   * You have an integer array.
+	   * Starting from arr[startIndex], follow each element to the index it points to. 
+	   * Continue to do this until you find a cycle. 
+	   * Return the length of the cycle. If no cycle is found return -1
+	   *
+	  */
+		
+		
+	  public static int countLengthOfCycle( int[] arr, int startIndex ) {
+		
+		  Set<Integer> seen = new HashSet<>();
+		  int len = 0;
+		  
+		  int i=0;
+		  int next = arr[startIndex];
+		  while(i<=arr.length)
+		  {
+			  System.out.println("Working on :"+ next);
+			  if(!seen.contains(next))
+			  { 
+			     seen.add(next);
+			     len++;
+			     next = arr[next];
+			  }
+			  else
+			  {
+				 System.out.println("Returning len :"+ len);
+				return len;  
+			  }
+			  System.out.println("The len is :"+ len);
+			  i++;
+			 
+		  }
+		  
+		  return -1;
+		  
+	  }
+
+
+	  public static void main( String[] args ) {
+
+	 boolean testsPassed = true;
+	  
+	 // testsPassed &= countLengthOfCycle(new int[]{1, 0}, 0) == 2;
+	 // testsPassed &= countLengthOfCycle(new int[]{1, 2, 0}, 0) == 3;
+	 // testsPassed &= countLengthOfCycle(new int[]{1, 4,2,0,3}, 0) == 4;
+	  testsPassed &= countLengthOfCycle(new int[]{1,2,3,0,4}, 0) == 4;
+	  
+	  if(testsPassed) {
+	    System.out.println( "Test passed." );
+	    //return true;
+	  } else {
+	    System.out.println( "Test failed." );
+	    //return false;
+	  }
+
+
+	  }
+	}
