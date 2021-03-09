@@ -1,0 +1,79 @@
+package com.gs.high;
+
+import java.util.*;
+import java.util.stream.Collectors;
+public class LongestWordDictionary {
+
+	// Given a a string of letters and a dictionary, the function longestWord should
+//  find the longest word or words in the dictionary that can be made from the letters
+//  Input: letters = "oet", dictionary = {"to","toe","toes"}
+//  Output: {"toe"}
+
+
+public static Set<String> longestWord(String letters, Dictionary dict) {
+	Set<Character> letterSet = new HashSet<>();
+	List<String> list = new ArrayList<>();
+	
+	for(char c: letters.toCharArray())
+		letterSet.add(c);
+	
+	int maxLen = 0;
+	
+	for(String entry : dict.getEntries()) {
+		
+		if(entry.length() >= maxLen &&
+			containsLetters(entry, letterSet)){
+			
+			list.add(entry);
+			maxLen = entry.length();
+		}
+	}
+	final int len = maxLen;
+	Set<String> result = list.stream().filter(l -> l.length()==len).collect(Collectors.toSet());
+	result.stream().forEach(System.out::println);
+	return result;
+	
+}
+
+
+private static boolean containsLetters(String entry, Set<Character> letterSet) {
+	      	
+	   for(char c : entry.toCharArray())
+	   {
+		   if(!letterSet.contains(c))
+			   return false;
+	   }
+	
+		return true;
+	}
+
+
+public static boolean pass() {
+ Dictionary dict = new Dictionary(new String[]{"to","toe","oet","toot", "toes", "doe", "dog", "god", "dogs", "banana"});
+ boolean r = new HashSet<String>(Arrays.asList("to")).equals(longestWord("toe", dict));
+ return r;
+}
+
+public static void main(String[] args) {
+ if(pass()) {
+   System.out.println("Pass");
+ } else {
+   System.err.println("Fails");
+ }
+}
+}
+
+class Dictionary {
+private String[] entries;
+
+public Dictionary(String[] entries) {
+ this.entries = entries;
+}
+
+public String[] getEntries() {
+	return entries;
+}
+public boolean contains(String word) {
+ return Arrays.asList(entries).contains(word);
+}
+}
