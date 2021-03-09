@@ -1,0 +1,86 @@
+package com.gs.high;
+
+public class ShortestDistanceBetnWords {
+
+		// Input two words returns the shortest distance between their two midpoints in
+		// number of characters
+		// Words can appear multiple times in any order and should be case insensitive.
+
+		// E.g. for the document="Example we just made up"
+		// shortestDistance( document, "we", "just" ) == 4
+
+		public static double shortestDistance(String document, String word1, String word2) {
+			
+			if(word1.equals(word2))
+				return 0;
+			
+			String newdoc = document.toLowerCase();
+			String[] docwords = newdoc.split(" ");
+			
+			String w1 = word1.toLowerCase();
+			String w2 = word2.toLowerCase();
+			
+			double sdist=Integer.MAX_VALUE;
+			
+			for(int i=0;i<docwords.length;i++) {
+				
+				if(docwords[i].replaceAll("[^a-z0-9]","").equals(w1)) {
+					
+					System.out.println("Found :"+ w1 + " at " + i);
+					
+					for(int j=0;j<docwords.length;j++) {
+						
+						if(docwords[j].replaceAll("[^a-z0-9]","").equals(w2)) {
+							System.out.println("Found :"+ w2 + " at " + j);
+							int start = Math.min(i, j);
+							int end = Math.max(i, j);
+							double dist = end - start;
+							double mid = docwords[i].length()+docwords[j].length();
+							mid = mid%2==0?mid/2:(mid+1)/2;
+							dist += mid;
+							for(int k= start+1;k<end;k++)
+								dist += docwords[k].length();	
+							
+							sdist = Math.min(dist, sdist);
+							System.out.println("Min distance now is :"+ sdist);
+						}
+								
+					}
+							
+				}
+							
+			}
+			
+			
+			
+			return sdist;
+			
+			
+		}
+
+		public static boolean pass() {
+			return shortestDistance(document, "and", "graphic") == 6d && shortestDistance(document, "transfer", "it") == 14d
+					&& shortestDistance(document, "Design", "filler") == 25d;
+		}
+
+		public static void main(String[] args) {
+			if (pass()) {
+				System.out.println("Pass");
+			} else {
+				System.out.println("Some Fail");
+			}
+		}
+
+		private static final String document;
+		static {
+			StringBuffer sb = new StringBuffer();
+			sb.append(
+					"In publishing and graphic design, lorem ipsum is a filler text commonly used to demonstrate the graphic elements");
+			sb.append(
+					" lorem ipsum text has been used in typesetting since the 1960s or earlier, when it was popularized by advertisements");
+			sb.append(
+					" for Letraset transfer sheets. It was introduced to the Information Age in the mid-1980s by Aldus Corporation, which");
+
+			document = sb.toString();
+		}
+	}
