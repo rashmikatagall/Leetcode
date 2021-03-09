@@ -1,0 +1,80 @@
+package com.gs.high;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class DecimalConversionLeetCode {
+
+
+		/**
+		 * Return the fraction output in the following way Examples: If after decimal,
+		 * repeating numbers are there in the output . eg. 1/3=0.333333333, this should
+		 * be represented as 0.(3) 6/11=0.54545454, this should be represented as 0.(54)
+		 * fractionRepresentation(1,2)=0.5 fractionRepresentation(1,3)=0.(3)
+		 * fractionRepresentation(6,11)=0.(54)
+		 */
+		public static String fractionRepresentation(int num, int den) {
+		
+			if(num == 0) return "0";
+			if(den == 0) return "";
+			
+			
+			StringBuilder sb = new StringBuilder();
+			if(num < 0 ^ den < 0)
+				sb.append("-");
+			
+			long numerator = Math.abs(num);
+			long denominator = Math.abs(den);
+			
+			System.out.println("Numerator : "+ numerator + " Denominator : "+ denominator);
+			numerator = Math.abs(numerator);
+			denominator = Math.abs(denominator);
+			
+			long quo = numerator/denominator;
+			long remainder = (numerator%denominator)*10;
+			
+			sb.append(String.valueOf(quo));
+			sb.append(remainder!=0?".":"");
+			
+			Map<Long,Integer> map = new HashMap<>();
+			
+			while(remainder != 0)
+			{
+				if(map.containsKey(remainder)) {
+					int len = map.get(remainder);
+					sb.insert(len, "(");
+					sb.append(")");
+					break;
+				}
+				
+				else
+				{
+					map.put(remainder, sb.length());
+					sb.append(remainder/denominator);
+					remainder = (remainder%denominator)*10;
+				}
+			}
+			
+			return sb.toString();
+			
+		        
+		}
+
+		public static void main(String args[]) {
+			// float f=6/11f;
+			// System.out.println(f);
+			System.out.println(fractionRepresentation(1, 2) + " " + fractionRepresentation(1, 3) + " "
+					+ fractionRepresentation(6, 11) + " "
+							+ fractionRepresentation(2,3)  + " "
+									+ fractionRepresentation(1,6)  + " "
+											+ fractionRepresentation(-1,-2147483648));
+
+			if (fractionRepresentation(1, 2).equals("0.5") && fractionRepresentation(6, 11).equals("0.(54)")
+					&& fractionRepresentation(1, 3).equals("0.(3)")) {
+				System.out.println("All passed");
+			} else {
+				System.out.println("Failed");
+			}
+
+		}
+	}
