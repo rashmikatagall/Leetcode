@@ -1,0 +1,92 @@
+/*
+Given a string representing an expression of fraction addition and subtraction, you need to return the calculation result in string format. The final result should be irreducible fraction.
+If your final result is an integer, say 2, you need to change it to the format of fraction that has denominator 1. So in this case, 2 should be converted to 2/1.
+*/
+
+class Solution {
+    public String fractionAddition(String expression) {
+        
+     List<Character> signs = new ArrayList<>();
+     
+     if(expression.charAt(0)!='-')
+         signs.add('+');
+        
+     for(char c: expression.toCharArray())
+     {
+         if (c == '+' || c == '-')
+             signs.add(c);
+     }
+        
+    String[] fractions = expression.split("[\\+-]");
+    List<Integer> num = new ArrayList<>();
+    List<Integer> den = new ArrayList<>();
+        
+   for(String fraction : fractions)
+   {
+       if(fraction.equals(""))
+           continue;
+       String[] numden = fraction.split("/");
+       num.add(Integer.valueOf(numden[0]));
+       den.add(Integer.valueOf(numden[1]));   
+   }
+    
+    int lcm = getLcm(den);
+    
+    int numsum = 0;
+               
+    for(int i=0;i<num.size();i++)
+    {
+    
+        int thisnum = num.get(i)*(lcm/den.get(i));
+        if(signs.get(i) == '-')
+            thisnum = thisnum*-1;
+        numsum+=thisnum;
+    }
+    
+      boolean negative = (numsum <0)?true:false;
+	    if (negative)
+	    	numsum = numsum*-1;
+               
+     int gcd = getGcd(numsum,lcm);
+    
+     StringBuilder sb = new StringBuilder();
+	    
+	    if (gcd == 1)
+	       sb.append(String.valueOf(numsum)+"/"+String.valueOf(lcm));
+	    else{    
+	        int rnumsum = numsum/gcd;
+	        int rden = lcm/gcd;
+	        sb.append(String.valueOf(rnumsum)+"/"+String.valueOf(rden));
+	    }
+	    
+	    if(negative)
+	    	sb.insert(0, '-');
+        
+    return sb.toString();
+       
+    }
+               
+ public int getGcd(int a, int b)
+  {
+      while(b!=0){
+        int t = b;
+        b = a%b;
+        a = t;
+      }
+       return a;
+  }
+               
+public int getLcm(List<Integer> nums){
+    
+    int lcm = 1;
+    
+    for(int num : nums)
+        lcm = (lcm * num)/getGcd(lcm,num);
+    
+    return lcm;
+    
+    
+}
+               
+    
+}
