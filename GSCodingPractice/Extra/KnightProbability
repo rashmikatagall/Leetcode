@@ -1,0 +1,53 @@
+class Solution {
+    public double knightProbability(int N, int K, int r, int c) {
+     
+        double[][] prevProb = new double[N][N];
+        prevProb[r][c] = 1;
+        
+        double totalProb=0;
+       
+        int[][] nextMoves = new int[][]{{-2,1},{-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,-1}};
+        
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{r,c});
+        
+        for(int moves=K;moves>0;moves--){
+            
+            double[][] prob = new double[N][N];
+            Queue<int[]> nextqueue = new LinkedList<>();
+            int[][] seen = new int[N][N];
+            while(!queue.isEmpty())
+            {
+            int[] position = queue.poll();  
+            int thisr = position[0];
+            int thisc = position[1];
+            for(int[] next : nextMoves){
+                
+                int nr = thisr + next[0];
+                int nc = thisc + next[1];
+                
+                if(nr < N && nr >=0 && nc < N && nc >= 0)
+                {
+                    prob[nr][nc] += prevProb[thisr][thisc]/8.0;
+                    if(seen[nr][nc] == 0)
+                    {
+                      nextqueue.add(new int[]{nr,nc});
+                      seen[nr][nc] =1;
+                    }
+                }
+                   
+            }
+            }
+            prevProb = prob;  
+            queue=nextqueue;
+        }
+        
+        for(double[] rowProb : prevProb)
+            for(double colProb : rowProb)
+                totalProb+=colProb;
+        
+        
+        return totalProb;
+        
+    }
+}
