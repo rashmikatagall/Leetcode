@@ -1,0 +1,39 @@
+class Solution {
+    public String findLongestWord(String s, List<String> dictionary) {
+        char[] sc = s.toCharArray();
+        List<String> result = new ArrayList<>();
+        int maxLength = 0;
+        for(String word : dictionary)
+        {
+          if(word.length() >= maxLength)
+          {
+          char[] wordc = word.toCharArray();
+          int wordi=0;
+          for(int si=0;si<s.length();si++)
+          {
+              
+              if(wordi < wordc.length && sc[si] == wordc[wordi])
+                  wordi++;
+              
+              if(wordi == wordc.length)
+                  break;
+          }
+          
+            if(wordi == wordc.length && wordc.length >= maxLength)
+            {
+                result.add(word);
+                maxLength = Math.max(maxLength, wordc.length);
+            }
+          }
+        }
+        
+        
+       final int len = maxLength; 
+        
+       if(result.size() == 0)
+           return "";
+       return result.stream().filter(str -> str.length() == len)
+                       .sorted().findFirst().get();
+        
+    }
+}
