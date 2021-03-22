@@ -1,0 +1,49 @@
+class Solution {
+    public String reorganizeString(String S) {
+        
+        char[] sc= S.toCharArray();
+        int len = S.length();
+        int mid = (len%2==0)?len/2:(len+1)/2;
+        Map<Character,Integer> map = new HashMap<>();
+        
+        for(char c: sc){
+            int m = map.getOrDefault(c,0);
+            if(m == mid)
+                return "";
+            map.put(c,m+1); 
+        }
+        
+      Queue<Character> pq = new PriorityQueue<>((a,b) -> map.get(b) - map.get(a));
+        
+        pq.addAll(map.keySet());
+        StringBuilder sb = new StringBuilder();
+        
+        while(pq.size() > 1)
+        {
+            char thisChar = pq.poll();
+            char nextChar = pq.poll();
+            sb.append(thisChar);
+            sb.append(nextChar);
+            int thisCharCount = map.get(thisChar);
+            int nextCharCount = map.get(nextChar);
+            if(thisCharCount > 1)
+                 map.put(thisChar,thisCharCount-1);
+            else
+                map.remove(thisChar);
+            if(nextCharCount > 1)
+                 map.put(nextChar,nextCharCount-1);
+            else
+                map.remove(nextChar);
+            if(map.containsKey(thisChar))
+                pq.add(thisChar);
+            if(map.containsKey(nextChar))
+                pq.add(nextChar);
+        }
+        if(!pq.isEmpty()){
+          char c = pq.poll();
+          sb.append(c);
+        }
+        return sb.toString();
+        
+    }
+}
