@@ -1,0 +1,82 @@
+class Solution {
+    char direction = 'u';
+    
+    public boolean isRobotBounded(String instructions) {
+        int[] position = new int[]{0,0};
+  
+        
+        position = getMoment(position,instructions);
+        
+        if(position[0] == 0 && position[1] == 0)
+            return true;
+        if(direction != 'u')
+            return true;
+        
+        return false;
+        
+    }
+    
+    public int[] getMoment(int[] position,String instructions){
+     
+        
+        char[] inst = instructions.toCharArray();
+        
+        for(char c : inst){
+            
+            switch(c){
+                case 'G':
+                    position = getPosition(position, direction);
+                    break;
+                case 'L':
+                    direction = getDirection(direction, 'L');
+                    break;
+                case 'R' :
+                    direction = getDirection(direction , 'R');
+                    break;            
+            }
+            
+        }
+        
+        return position;
+    }
+    public int[] getPosition(int[] position, char dir)
+    {
+        if(dir == 'u')
+            position[0]++;
+        else if(dir == 'd')
+            position[0]--;
+        else if(dir == 'l')
+            position[1]--;
+        else
+            position[1]++;
+        
+        return position;
+        
+    }
+    
+    public char getDirection(char dir, char c)
+    {
+        if(dir == 'u' && c == 'L')
+            return 'l';
+        if(dir == 'u' && c == 'R')
+            return 'r';
+        
+        if(dir == 'l' && c == 'L')
+            return 'd';
+        if(dir == 'l' && c == 'R')
+            return 'u';
+        
+        if(dir == 'd' && c == 'L')
+            return 'r';
+        if(dir == 'd' && c == 'R')
+            return 'l';
+        
+        if(dir == 'r' && c == 'L')
+            return 'u';
+        if(dir == 'r' && c == 'R')
+            return 'd';
+        
+        return 'c';
+        
+    }
+}
