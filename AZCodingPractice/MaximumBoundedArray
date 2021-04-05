@@ -1,0 +1,53 @@
+
+/*
+Build bounded array within lower bound and upper bound
+*/
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+
+public class MaxBoundedArray {
+  public List<Integer> solution(int num, int low, int high) {
+    int total = (high - low) * 2 + 1;
+
+    if (num > total || high < low || num < 3) {
+      return null;
+    }
+
+    Deque<Integer> queue = new LinkedList<>();
+    for (int i = high; i >= low && queue.size() < num; i--) {
+      queue.add(i);
+    }
+
+    if (queue.size() == num) {
+      queue.removeLast();
+      queue.addFirst(high - 1);
+      return (List<Integer>) queue;
+    }
+    else {
+      for (int i = high - 1; i >= low; i--) {
+        queue.addFirst(i);
+
+        if (queue.size() == num) {
+          return (List<Integer>) queue;
+        }
+      }
+    }
+
+    return null;
+  }
+  
+  private static void test(int num, int low, int high) {
+    MaxBoundedArray maxBoundedArray = new MaxBoundedArray();
+    System.out.println(maxBoundedArray.solution(num, low, high));
+  }
+
+  public static void main(String args[]) {
+    test(4, 2, 4);
+    test(4, 10, 12);
+    test(6, 1, 3);
+    test(5, 10, 15);
+    test(11, 10, 15);
+  }
+}
