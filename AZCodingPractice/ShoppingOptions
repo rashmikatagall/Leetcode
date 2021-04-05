@@ -1,0 +1,49 @@
+import java.util.Arrays;
+import java.util.List;
+
+public class ShopppingItems {
+
+	public static int getNumberOfOptions(int[] priceOfJeans, int[] priceOfShoes, int[] priceOfSkirts, int[] priceOfTops, int dollars)
+	{
+		List<int[]> items = Arrays.asList(priceOfJeans,priceOfShoes,priceOfSkirts,priceOfTops);
+		
+		return getWays(items,0,dollars);
+	}
+
+	public static int getWays(List<int[]> items, int start,int budget)
+	{
+		int ways =0;
+		
+		if(start == items.size()-1)
+		{
+			for(int item : items.get(start))
+				if(item <= budget)
+					ways++;
+			
+			return ways;
+		}
+		
+		for(int item: items.get(start))
+		{
+			if(item < budget)
+			   ways +=getWays(items,start+1,budget-item);
+	
+		}
+		
+		return ways;
+	
+   }
+
+	
+	public static void main(String[] args)
+	{
+		
+		 int[] A = {2,3};
+		 int[] B = {4};
+		 int[] C = {2,3};
+		 int[] D = {1,2};
+		 
+		 System.out.println(getNumberOfOptions(A,B,C,D,10));
+		 
+	}
+}
