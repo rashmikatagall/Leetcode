@@ -12,6 +12,8 @@ public class ShopppingItems {
 
 	public static int getWays(List<int[]> items, int start,int budget)
 	{
+	       	if(budget < 0)
+		     return 0;
 		int ways =0;
 		
 		if(start == items.size()-1)
