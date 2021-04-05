@@ -1,0 +1,47 @@
+// "static void main" must be defined in a public class.
+
+/*
+input:
+rideDuration = 90
+songDuration = {1,10,25,35,60}
+
+output:
+[2,3]
+*/
+public class Main {
+    public static void main(String[] args) {
+     int[] songDuration =  {1,40,25,35,20};
+    int[] result = getSongs(90,songDuration);
+    System.out.println("{"+result[0]+","+result[1]+"}");
+    }
+    
+    public static int[] getSongs(int rideDuration, int[] songDuration)
+    {
+        if(songDuration.length == 0 || rideDuration == 0)
+            return new int[]{-1,-1};
+        int duration = rideDuration - 30;
+        int durationDiff = Integer.MIN_VALUE;
+        int[] result = {-1,-1};
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<songDuration.length;i++)
+            map.put(duration-songDuration[i],i);
+        
+        for(int i=0;i<songDuration.length;i++)
+        {
+            int thisSong = songDuration[i];
+                                    
+            if(map.containsKey(thisSong) 
+                  && Math.abs(thisSong - songDuration[map.get(songDuration[i])]) > durationDiff)
+            {
+              int otherSong = map.get(songDuration[i]);
+              result[0]=i;
+              result[1]=otherSong;
+              durationDiff = Math.abs(thisSong - songDuration[otherSong]);                  
+            }
+                
+        }
+        
+        return result;
+        
+    }
+}
