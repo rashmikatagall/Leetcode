@@ -1,0 +1,41 @@
+import java.util.*;
+import java.util.stream.*;
+import java.util.Scanner;
+
+class Solution {
+    public static List<String> getUserIds(List<String> logs, int threshold) {
+        // WRITE YOUR BRILLIANT CODE HERE
+       Map<String,Integer> map = new HashMap<>();
+        
+       for(String log : logs)
+       {
+           String[] entries = log.split(" ");
+           if(entries[0].equals(entries[1]))
+               map.put(entries[0],map.getOrDefault(entries[0],0)+1);
+           else{
+                map.put(entries[0],map.getOrDefault(entries[0],0)+1);
+                map.put(entries[1],map.getOrDefault(entries[1],0)+1);
+           }
+              
+       }
+            
+     return  map.entrySet().stream().sorted((e1,e2) -> e1.getValue()-e2.getValue())
+                              .filter(e -> e.getValue() >= threshold)
+                              .map(e -> e.getKey())
+                              .collect(Collectors.toList());
+        
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int logsLength = Integer.parseInt(scanner.nextLine());
+        List<String> logs = new ArrayList<>();
+        for (int i = 0; i < logsLength; i++) {
+            logs.add(scanner.nextLine());
+        }
+        int threshold = Integer.parseInt(scanner.nextLine());
+        scanner.close();
+        List<String> res = getUserIds(logs, threshold);
+        System.out.println(String.join(" ", res));
+    }
+}
