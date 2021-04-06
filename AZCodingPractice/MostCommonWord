@@ -1,0 +1,32 @@
+import java.util.*;
+import java.util.Scanner;
+
+class Solution {
+    public static String mostCommonWord(String paragraph, List<String> banned) {
+        // WRITE YOUR BRILLIANT CODE HERE
+        Map<String, Integer> map = new HashMap<>();
+        
+        for(String str : paragraph.split(" "))
+         {
+             String toSearch = str.toLowerCase().replaceAll("[^0-9a-z]","");
+             if(!banned.contains(toSearch))
+                map.put(toSearch,map.getOrDefault(toSearch,0)+1);
+                
+         }
+                
+        return map.entrySet().stream().sorted((e1,e2) ->{ if(e1.getValue() == e2.getValue())
+                                           return e1.getKey().compareTo(e2.getKey());
+                                       else
+                                          return e2.getValue()-e1.getValue(); })
+                .findFirst().map(e -> e.getKey()).get();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String paragraph = scanner.nextLine();
+        List<String> banned = Arrays.asList(scanner.nextLine().split(" "));
+        scanner.close();
+        String res = mostCommonWord(paragraph, banned);
+        System.out.println(res);
+    }
+}
