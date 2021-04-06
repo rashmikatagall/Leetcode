@@ -1,0 +1,64 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+class Solution {
+    public static List<List<Integer>> getPairs(List<List<Integer>> a, List<List<Integer>> b, int target) {
+        // WRITE YOUR BRILLIANT CODE HERE
+        
+       int max = Integer.MIN_VALUE; 
+       List<List<Integer>> result = new ArrayList<>();
+       for(List<Integer> a1 : a)
+       {
+           if(a1.get(1) > target)
+               continue;
+              
+           for(List<Integer> b1 : b)
+           {
+               if(b1.get(1) > target)
+                 continue;
+               
+               int thissum = a1.get(1)+b1.get(1);
+               if(thissum >= max && thissum <= target)
+               {
+                   if(thissum > max)
+                   {
+                       result = new ArrayList<>();
+                       max = thissum;
+                   }
+                      
+                   List<Integer> part = new ArrayList<>();
+                   part.add(a1.get(0));
+                   part.add(b1.get(0));
+                   result.add(part);
+               }
+           }
+       }
+        
+        return result;
+        
+        
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int aLength = Integer.parseInt(scanner.nextLine());
+        List<List<Integer>> a = new ArrayList<>();
+        for (int i = 0; i < aLength; i++) {
+            a.add(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList()));
+        }
+        int bLength = Integer.parseInt(scanner.nextLine());
+        List<List<Integer>> b = new ArrayList<>();
+        for (int i = 0; i < bLength; i++) {
+            b.add(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList()));
+        }
+        int target = Integer.parseInt(scanner.nextLine());
+        scanner.close();
+        List<List<Integer>> res = getPairs(a, b, target);
+        for (List<Integer> row : res) {
+            System.out.println(row.stream().map(String::valueOf).collect(Collectors.joining(" ")));
+        }
+    }
+}
