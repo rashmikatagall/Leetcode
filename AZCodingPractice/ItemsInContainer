@@ -1,0 +1,60 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+class Solution {
+    public static List<Integer> numberOfItems(String s, List<List<Integer>> ranges) {
+        // WRITE YOUR BRILLIANT CODE HERE
+     List<Integer> result = new ArrayList<>();
+     for(List<Integer> range : ranges)
+     {
+         int part = findItems(s.substring(range.get(0),range.get(1)+1));
+         result.add(part);
+        
+     }
+     
+     return result;
+   }
+                              
+    public static int findItems(String str)
+    {
+     int i=0;
+     int max = 0;
+     while(i < str.length() && str.charAt(i) =='*')
+         i++;
+     
+     i++;
+     while(i < str.length())
+     {
+         int thismax = 0;
+        
+         while(i < str.length() && str.charAt(i) == '*')
+         {
+             thismax++;
+             i++;
+         }
+         
+         if(i < str.length() && str.charAt(i) == '|')
+           max += thismax;
+         i++;
+     }
+     
+      return max;  
+        
+    }
+                                  
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.nextLine();
+        int rangesLength = Integer.parseInt(scanner.nextLine());
+        List<List<Integer>> ranges = new ArrayList<>();
+        for (int i = 0; i < rangesLength; i++) {
+            ranges.add(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList()));
+        }
+        scanner.close();
+        List<Integer> res = numberOfItems(s, ranges);
+        System.out.println(res.stream().map(String::valueOf).collect(Collectors.joining(" ")));
+    }
+}
