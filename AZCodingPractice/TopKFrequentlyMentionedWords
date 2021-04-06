@@ -1,0 +1,52 @@
+import java.util.*;
+import java.util.stream.*;
+import java.util.Scanner;
+
+class Solution {
+    public static List<String> topMentioned(int k, List<String> keywords, List<String> reviews) {
+        // WRITE YOUR BRILLIANT CODE HERE
+        
+      Map<String,Integer> map = new HashMap<>();
+      for(String str : reviews)
+      {
+          String[] strs = str.split(" ");
+          Set<String> seen = new HashSet<>();
+          for(String s : strs)
+          {
+              String toSearch = s.toLowerCase().replaceAll("[^0-9a-z]",""); 
+              if(keywords.contains(toSearch) && !seen.contains(toSearch))
+              {
+                  map.put(toSearch,map.getOrDefault(toSearch,0)+1);
+                  seen.add(toSearch);
+              }
+          }  
+       }
+        
+       return map.entrySet().stream().sorted((e1,e2) ->{ if(e1.getValue() == e2.getValue())
+                                           return e1.getKey().compareTo(e2.getKey());
+                                       else
+                                          return e2.getValue()-e1.getValue(); })
+                      .limit(k)
+                      .map(e -> e.getKey())
+                      .collect(Collectors.toList());
+                               
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int k = Integer.parseInt(scanner.nextLine());
+        int keywordsLength = Integer.parseInt(scanner.nextLine());
+        List<String> keywords = new ArrayList<>();
+        for (int i = 0; i < keywordsLength; i++) {
+            keywords.add(scanner.nextLine());
+        }
+        int reviewsLength = Integer.parseInt(scanner.nextLine());
+        List<String> reviews = new ArrayList<>();
+        for (int i = 0; i < reviewsLength; i++) {
+            reviews.add(scanner.nextLine());
+        }
+        scanner.close();
+        List<String> res = topMentioned(k, keywords, reviews);
+        System.out.println(String.join(" ", res));
+    }
+}
