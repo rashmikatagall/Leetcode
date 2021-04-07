@@ -1,0 +1,67 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+class Solution {
+    public static int fiveStarReviews(List<List<Integer>> ratings, int threshold) {
+        // WRITE YOUR BRILLIANT CODE HERE
+        int products = ratings.size();
+        double thresh = (threshold * products)/100.0;
+   
+        double ratingSum = 0;
+        int result = 0;
+        
+        for(List<Integer> rating : ratings)
+        {
+        	ratingSum += (rating.get(0)*1.0)/rating.get(1);
+        }
+     
+        while (ratingSum < thresh)
+        {
+            double maxDiff = 0;
+            ratingSum = 0;
+            int productItem = -1;
+           // for(List<Integer> rating : ratings)
+            for(int i=0; i<ratings.size();i++)
+            {
+                int fiveStar = ratings.get(i).get(0);
+                int total = ratings.get(i).get(1);
+                double thisDiff = ((fiveStar + 1) * 1.0 /(total + 1) * 1.0) - (fiveStar * 1.0 /total);
+                if(thisDiff > maxDiff)
+                {
+                    maxDiff = thisDiff;
+                    productItem = i;
+                }
+                
+                ratingSum += (fiveStar * 1.0 /total); 
+                
+            }
+            
+            ratingSum = ratingSum - (ratings.get(productItem).get(0) * 1.0 /  ratings.get(productItem).get(1));
+            ratings.get(productItem).set(0, ratings.get(productItem).get(0)+1);
+            ratings.get(productItem).set(1, ratings.get(productItem).get(1)+1);
+            ratingSum = ratingSum + (ratings.get(productItem).get(0) * 1.0 /  ratings.get(productItem).get(1));
+            result++;
+            
+         }
+        
+        return result;
+            
+        }
+        
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int ratingsLength = Integer.parseInt(scanner.nextLine());
+        List<List<Integer>> ratings = new ArrayList<>();
+        for (int i = 0; i < ratingsLength; i++) {
+            ratings.add(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList()));
+        }
+        int threshold = Integer.parseInt(scanner.nextLine());
+        scanner.close();
+        int res = fiveStarReviews(ratings, threshold);
+        System.out.println(res);
+    }
+}
