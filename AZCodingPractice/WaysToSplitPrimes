@@ -1,0 +1,62 @@
+import java.util.Scanner;
+import java.util.*;
+
+class Solution {
+    public static int splitPrimes(String inputStr) {
+        // WRITE YOUR BRILLIANT CODE HERE
+        
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> part = new ArrayList<>();
+        
+        findPrimes(inputStr, part, result);
+        
+        return result.size();
+    }
+    
+    public static void findPrimes(String str, List<Integer> part, List<List<Integer>> result)
+    {
+        if(str.length() == 0)
+        {
+            result.add(part);
+            return;
+        }
+        
+        for(int i=0;i<str.length();++i)
+        {
+            String snum = str.substring(0,i+1);
+            int num = Integer.parseInt(snum);
+            if(isPrime(num))
+            {
+                part.add(num);
+                findPrimes(str.substring(i+1), part,result);
+                part.remove(part.size()-1);
+            }
+            
+        }
+       
+    }
+    
+   public static boolean isPrime(int n) {
+	if(n <= 1)
+		return false;
+	if(n == 2)	// 2 is prime
+		return true;
+    //check if n is a multiple of 2
+    if (n % 2 == 0)
+    	return false;
+    //if not, then just check the odds
+    for(int i=3; i<=n/2; i=i+2) {
+        if(n % i == 0)
+            return false;
+    }
+    return true;
+}
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String inputStr = scanner.nextLine();
+        scanner.close();
+        int res = splitPrimes(inputStr);
+        System.out.println(res);
+    }
+}
