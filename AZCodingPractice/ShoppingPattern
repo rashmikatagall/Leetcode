@@ -1,0 +1,63 @@
+import java.util.Arrays;
+import java.util.*;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+class Solution {
+    public static int shoppingPatterns(int productsNodes, List<Integer> productsFrom, List<Integer> productsTo) {
+        // WRITE YOUR BRILLIANT CODE HERE
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        
+       // for(int i=0;i<productsNodes;i++)
+        for(int i=0;i<productsFrom.size();i++)
+        {
+            if(!map.containsKey(productsFrom.get(i)))
+               map.put(productsFrom.get(i), new ArrayList<Integer>());
+             if(!map.containsKey(productsTo.get(i)))
+               map.put(productsTo.get(i), new ArrayList<Integer>()); 
+             
+            List<Integer> from = map.get(productsFrom.get(i));
+            from.add(productsTo.get(i));
+              map.put(productsFrom.get(i),from);
+            List<Integer> to = map.get(productsTo.get(i));
+            to.add(productsFrom.get(i));
+              map.put(productsTo.get(i),to);        
+        }
+              
+         int score = Integer.MAX_VALUE;            
+         for(Map.Entry<Integer,List<Integer>> entry : map.entrySet())
+          {
+            int s = 0;
+            if(entry.getValue().size() == 2)
+            {
+                List<Integer> toCheck = entry.getValue();
+                toCheck.add(entry.getKey());
+                for(int c : toCheck)
+                {
+                   int thiss = map.get(c).size();
+                   List<Integer> thisList = map.get(c);
+                    for(int sc : toCheck)
+                        if(thisList.contains(sc))
+                            thiss--;
+                   s += thiss;       
+                }
+              score = Math.min(score,s);
+                     
+            }
+              
+          }
+        
+        return (score==Integer.MAX_VALUE)?-1:score;
+        
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int productsNodes = Integer.parseInt(scanner.nextLine());
+        List<Integer> productsFrom = Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> productsTo = Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
+        scanner.close();
+        int res = shoppingPatterns(productsNodes, productsFrom, productsTo);
+        System.out.println(res);
+    }
+}
