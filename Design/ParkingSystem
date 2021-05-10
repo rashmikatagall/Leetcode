@@ -1,0 +1,28 @@
+class ParkingSystem {
+
+    Map<Integer,Integer> space;
+    
+    public ParkingSystem(int big, int medium, int small) {
+       space = new HashMap<>();
+       space.put(1,big);
+       space.put(2,medium);
+       space.put(3,small);
+    }
+    
+    public boolean addCar(int carType) {
+        
+      int availableSpace = space.get(carType);
+      if(availableSpace > 0)
+      {
+          space.put(carType, availableSpace-1);
+          return true;
+      }
+      return false;
+    }
+}
+
+/**
+ * Your ParkingSystem object will be instantiated and called as such:
+ * ParkingSystem obj = new ParkingSystem(big, medium, small);
+ * boolean param_1 = obj.addCar(carType);
+ */
