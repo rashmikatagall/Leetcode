@@ -1,0 +1,57 @@
+class Twitter {
+
+    Map<Integer,Integer> tweets;
+    Map<Integer,Set<Integer>> followers;
+    /** Initialize your data structure here. */
+    public Twitter() {
+        tweets = new LinkedHashMap<>();
+        followers = new HashMap<>();
+        
+    }
+    
+    /** Compose a new tweet. */
+    public void postTweet(int userId, int tweetId) {
+        tweets.put(tweetId,userId);
+        
+    }
+    
+    /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
+    public List<Integer> getNewsFeed(int userId) {
+        List<Integer> followees = new ArrayList<>();
+        if(followers.containsKey(userId))
+           followees.addAll(followers.get(userId)); 
+        followees.add(userId);
+        
+        List<Integer> feed = tweets.entrySet().stream()
+                         .filter(e -> followees.contains(e.getValue()))
+                         .map(e -> e.getKey())
+                         .collect(Collectors.toList());
+        Collections.reverse(feed);
+        return feed.stream().limit(10).collect(Collectors.toList());
+    }
+    
+    /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
+    public void follow(int followerId, int followeeId) {
+       Set<Integer> f = 
+            followers.getOrDefault(followerId, new HashSet<Integer>());
+        f.add(followeeId);
+        followers.put(followerId,f);
+        
+    }
+    
+    /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
+    public void unfollow(int followerId, int followeeId) {
+        Set<Integer> f = followers.getOrDefault(followerId, new HashSet<>());
+        f.remove(followeeId);
+        followers.put(followerId,f);
+    }
+}
+
+/**
+ * Your Twitter object will be instantiated and called as such:
+ * Twitter obj = new Twitter();
+ * obj.postTweet(userId,tweetId);
+ * List<Integer> param_2 = obj.getNewsFeed(userId);
+ * obj.follow(followerId,followeeId);
+ * obj.unfollow(followerId,followeeId);
+ */
