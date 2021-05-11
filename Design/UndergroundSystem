@@ -1,0 +1,43 @@
+class UndergroundSystem {
+
+    Map<Integer,String> stationMap;
+    Map<Integer,Integer> timeMap;
+    Map<String,List<Integer>> travelTime;
+    
+    public UndergroundSystem() {
+        stationMap = new HashMap<>();
+        timeMap = new HashMap<>();
+        travelTime = new HashMap<>();
+    }
+    
+    public void checkIn(int id, String stationName, int t) {
+        stationMap.put(id,stationName);
+        timeMap.put(id,t);
+    }
+    
+    public void checkOut(int id, String stationName, int t) {
+        String fromStation = stationMap.remove(id);
+        int startTime = timeMap.remove(id);
+        String station = fromStation+" "+stationName;
+        List<Integer> time = travelTime.getOrDefault(station, new ArrayList<>());
+        time.add(t-startTime);
+        travelTime.put(station,time);
+    }
+    
+    public double getAverageTime(String startStation, String endStation) {
+        String station = startStation+" "+endStation;
+        return travelTime.get(station)
+                         .stream()
+                         .mapToInt(Integer::intValue)
+                         .average()
+                         .orElse(-1);
+    }
+}
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem obj = new UndergroundSystem();
+ * obj.checkIn(id,stationName,t);
+ * obj.checkOut(id,stationName,t);
+ * double param_3 = obj.getAverageTime(startStation,endStation);
+ */
