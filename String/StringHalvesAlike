@@ -1,0 +1,24 @@
+class Solution {
+    public boolean halvesAreAlike(String s) {
+       
+        int half = s.length()/2;
+        
+        if(vowelsNumber(s.substring(0,half)) == vowelsNumber(s.substring(half,s.length())))
+            return true;
+        
+        return false;
+    }
+    
+    
+    public int vowelsNumber(String s)
+    {
+        int result = 0;
+        for(char c : s.toLowerCase().toCharArray())
+        {
+            if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+                result++;
+        }
+        
+        return result;
+    }
+}
