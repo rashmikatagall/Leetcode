@@ -1,0 +1,34 @@
+class Solution {
+    public int countConsistentStrings(String allowed, String[] words) {
+        
+        Set<Character> allowedSet = new HashSet<>();
+        int consistent = 0;
+        int allowedLen = allowed.length();
+        
+        for(char c : allowed.toCharArray())
+        {
+            allowedSet.add(c);
+        }
+        
+        for(String word : words)
+        {
+            if(consists(allowedSet, word))
+                consistent++;
+        }
+        
+        return consistent;
+    }
+    
+    public boolean consists(Set<Character> allowed, String word)
+    {
+        
+        for(char w : word.toCharArray())
+        {
+          if(!allowed.contains(w))
+              return false;
+        }
+        
+        
+        return true;
+    }
+}
