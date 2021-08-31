@@ -1,0 +1,87 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class OptimalUtilization {
+
+	/*
+	 * Input:
+a = [[1, 3], [2, 5], [3, 7], [4, 10]]
+b = [[1, 2], [2, 3], [3, 4], [4, 5]]
+target = 10
+	 */
+	public static List<List<Integer>> getPairs(List<List<Integer>> a, List<List<Integer>> b, int target) {
+       
+		Collections.sort(a,(a1,a2) -> a1.get(1)-a2.get(1));
+		Collections.sort(b,(b1,b2) -> b1.get(1)-b2.get(1));
+		
+		int max = Integer.MIN_VALUE;
+		List<List<Integer>> result = new ArrayList<>();
+		
+		int lena = a.size();
+		int lenb = b.size();
+		
+		int left = 0;
+		int right = lenb-1;
+		
+		while(left < lena && right >=0)
+		{
+			
+			int sum = a.get(left).get(1)+b.get(right).get(1);
+			if(sum > target)
+				right--;
+			else
+			{
+				if(sum >= max)
+				{
+					if(sum > max)
+					{
+						result = new ArrayList<>();
+						max = sum;
+					}
+					
+					List<Integer> partial = new ArrayList<>();
+					partial.add(a.get(left).get(0));
+					partial.add(b.get(right).get(0));
+					result.add(partial);
+				}
+				
+				left++;
+			}
+		}
+		
+		return result;
+		
+     
+        
+        
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Length a : ");
+        int aLength = Integer.parseInt(scanner.nextLine());
+        List<List<Integer>> a = new ArrayList<>();
+        for (int i = 0; i < aLength; i++) {
+            a.add(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList()));
+        }
+        System.out.println("Length b: ");
+        int bLength = Integer.parseInt(scanner.nextLine());
+        List<List<Integer>> b = new ArrayList<>();
+        for (int i = 0; i < bLength; i++) {
+            b.add(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList()));
+        }
+        System.out.println("target: 3");
+        int target = Integer.parseInt(scanner.nextLine());
+        scanner.close();
+        
+        List<List<Integer>> res = getPairs(a, b, target);
+        for (List<Integer> row : res) {
+            System.out.println(row.stream().map(String::valueOf).collect(Collectors.joining(" ")));
+        }
+    }
+
+}
